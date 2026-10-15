@@ -1,16 +1,47 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { FaBars, FaTimes, FaArrowUp } from "react-icons/fa";
+import {
+  FaBars,
+  FaEnvelope,
+  FaInstagram,
+  FaTimes,
+  FaArrowUp,
+} from "react-icons/fa";
 
-const NAV_LINKS = [
-  { to: "/", label: "Pocetna" },
-  { to: "/O_nama", label: "O koferu" },
+const navLinks = [
+  { to: "/", label: "Početna" },
+  { to: "/O_nama", label: "O Koferu" },
   { to: "/Paketi", label: "Paketi" },
   { to: "/Blog", label: "Blog" },
 ];
+
+function ContactIcons({ onClick, className = "" }) {
+  return (
+    <div className={`flex items-center justify-center gap-5 ${className}`}>
+      <Link
+        href="/Kontakt"
+        onClick={onClick}
+        aria-label="Kontakt putem emaila"
+        className="text-[#314653] hover:text-[#D89681] transition-colors duration-200"
+      >
+        <FaEnvelope size={22} />
+      </Link>
+      <a
+        href="https://www.instagram.com/kofer.rodjendani/"
+        target="_blank"
+        rel="noopener noreferrer"
+        onClick={onClick}
+        aria-label="Instagram profil Kofer"
+        className="text-[#314653] hover:text-[#D89681] transition-colors duration-200"
+      >
+        <FaInstagram size={22} />
+      </a>
+    </div>
+  );
+}
 
 export default function Navbar() {
   const [nav, setNav] = useState(false);
@@ -18,151 +49,135 @@ export default function Navbar() {
   const [visible, setVisible] = useState(true);
   const [showScrollToTop, setShowScrollToTop] = useState(false);
 
-  // Scroll funkcionalnost
   useEffect(() => {
     const handleScroll = () => {
       const currentScrollPos = window.scrollY;
 
-      // Navbar hide/show
       setVisible(prevScrollPos > currentScrollPos || currentScrollPos < 10);
-      setPrevScrollPos(currentScrollPos);
 
-      // Scroll to top dugme
+      setPrevScrollPos(currentScrollPos);
       setShowScrollToTop(currentScrollPos > 10);
     };
 
-    window.addEventListener("scroll", handleScroll, { passive: true });
+    window.addEventListener("scroll", handleScroll, {
+      passive: true,
+    });
 
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
+    return () => window.removeEventListener("scroll", handleScroll);
   }, [prevScrollPos]);
 
-  // Scroll to top
-  const scrollToTop = useCallback(() => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  }, []);
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  };
+
+  const closeMenu = () => setNav(false);
 
   return (
     <>
-      {/* Navbar */}
       <nav
-        className={`fixed top-0 left-0 w-full bg-background shadow-lg z-50 h-[80px] lg:h-[100px] transition-transform duration-300
-        ${visible ? "translate-y-0" : "-translate-y-full"}
-      `}
+        className={`fixed top-0 left-0 w-full bg-background-secondary shadow-md z-50 h-[80px] lg:h-[100px] lg:flex lg:justify-between lg:items-center lg:px-20 transition-transform duration-300 ${
+          visible ? "translate-y-0" : "-translate-y-full"
+        }`}
       >
-        {/* Container */}
-        <div className="relative flex items-center justify-center h-full px-6 lg:px-20 lg:justify-between">
-          {/* Logo */}
+        {/* Navbar Container */}
+        <div className="relative flex justify-center items-center h-full px-6 lg:px-0">
+          <ContactIcons
+            onClick={closeMenu}
+            className="absolute left-6 top-1/2 -translate-y-1/2 lg:hidden"
+          />
+
+          {/* Kofer Logo */}
           <Link
             href="/"
-            aria-label="Pocetna stranica"
+            aria-label="Kofer - početna stranica"
+            onClick={closeMenu}
             className="flex items-center justify-center hover:opacity-80 transition-opacity duration-200"
           >
             <Image
               src="/kofer_logo.svg"
               alt="Kofer logo"
-              width={120}
-              height={50}
+              width={100}
+              height={60}
               priority
-              className="w-auto h-12 lg:h-14"
+              className="block h-8 lg:h-10 w-auto object-contain"
             />
           </Link>
 
-          {/* Hamburger / X */}
+          {/* Hamburger Icon */}
           <button
+            type="button"
             onClick={() => setNav(!nav)}
-            className="absolute right-6 top-1/2 -translate-y-1/2 lg:hidden z-50 cursor-pointer text-foreground hover:text-text-secondary transition-colors duration-200"
+            className="absolute right-6 top-1/2 -translate-y-1/2 lg:hidden z-50 cursor-pointer text-[#314653] hover:text-[#D89681] transition-colors duration-200"
             aria-controls="mobile-menu"
-            aria-expanded={nav ? "true" : "false"}
-            aria-label="Toggle navigation menu"
+            aria-expanded={nav}
+            aria-label={nav ? "Zatvori meni" : "Otvori meni"}
           >
             {nav ?
-              <FaTimes className="text-[20px] translate-y-[1px]" />
-            : <FaBars className="text-[20px]" />}
+              <FaTimes size={20} />
+            : <FaBars size={20} />}
           </button>
-
-          {/* Desktop Menu */}
-          <ul className="hidden lg:flex justify-between gap-8 text-lg">
-            {NAV_LINKS.map(({ to, label }) => (
-              <li key={to}>
-                <Link
-                  href={to}
-                  className="hover:text-text-secondary transition-colors duration-200"
-                  aria-label={label === "Pocetna" ? "Pocetna stranica" : label}
-                >
-                  {label}
-                </Link>
-              </li>
-            ))}
-          </ul>
-
-          {/* Desktop Kontakt */}
-          <Link href="/Kontakt" className="hidden lg:flex">
-            <button className="border-2 border-text-secondary px-4 py-2 text-text-secondary rounded-xl bg-transparent hover:bg-text-secondary hover:text-background transition-colors duration-200 cursor-pointer font-medium">
-              Kontakt
-            </button>
-          </Link>
         </div>
+
+        {/* Desktop Menu */}
+        <ul className="hidden lg:flex items-center justify-between gap-6 text-lg lg:text-xl text-[#314653]">
+          {navLinks.map(({ to, label }) => (
+            <li key={to}>
+              <Link
+                href={to}
+                className="hover:text-[#D89681] transition-colors duration-200"
+              >
+                {label}
+              </Link>
+            </li>
+          ))}
+        </ul>
+
+        {/* Desktop Contact Icons */}
+        <ContactIcons className="hidden lg:flex" />
 
         {/* Mobile Menu */}
         <div
           id="mobile-menu"
-          className={`fixed top-0 left-0 w-full h-screen bg-background flex flex-col items-center transition-all duration-500 ease-in-out z-40
-          ${nav ? "translate-y-0 opacity-100" : "-translate-y-full opacity-0"}
-        `}
+          aria-hidden={!nav}
+          className={`fixed top-[80px] left-0 z-40 flex max-h-[calc(100dvh-80px)] w-full flex-col items-center overflow-hidden bg-background-secondary transition-[height,opacity] duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] lg:hidden ${
+            nav ?
+              "h-[calc(100dvh-80px)] opacity-100"
+            : "h-0 opacity-0 pointer-events-none"
+          }`}
         >
-          {/* Mobile Logo */}
-          <Link
-            href="/"
-            aria-label="Pocetna stranica"
-            className="mt-6 text-center"
-            onClick={() => setNav(false)}
+          {/* Mobile Menu Links */}
+          <ul
+            className={`my-auto flex flex-col items-center gap-6 text-xl text-[#314653] transition-[transform,opacity] duration-500 ease-out ${
+              nav ? "translate-y-0 opacity-100 delay-100" : "-translate-y-4 opacity-0"
+            }`}
           >
-            <Image
-              src="/kofer_logo.svg"
-              alt="Kofer logo"
-              width={120}
-              height={50}
-              priority
-              className="w-auto h-12"
-            />
-          </Link>
-
-          {/* Mobile Links */}
-          <ul className="flex flex-col gap-6 text-xl text-foreground mt-auto mb-auto items-center">
-            {NAV_LINKS.map(({ to, label }) => (
-              <li key={to} onClick={() => setNav(false)}>
+            {navLinks.map(({ to, label }) => (
+              <li key={to}>
                 <Link
                   href={to}
-                  className="hover:text-text-secondary transition-colors duration-200"
+                  onClick={closeMenu}
+                  className="hover:text-[#D89681] transition-colors duration-200"
                 >
                   {label}
                 </Link>
               </li>
             ))}
 
-            {/* Mobile Kontakt */}
-            <li className="lg:hidden mt-4" onClick={() => setNav(false)}>
-              <Link href="/Kontakt">
-                <button
-                  className="border-2 border-text-secondary px-5 py-2 text-text-secondary rounded-2xl bg-background-secondary hover:bg-text-secondary hover:text-background transition-colors duration-200 cursor-pointer"
-                  aria-label="Kontakt"
-                >
-                  Kontakt
-                </button>
-              </Link>
-            </li>
           </ul>
+  
         </div>
       </nav>
 
-      {/* Scroll To Top */}
+      {/* Scroll to Top Button */}
       {showScrollToTop && (
         <button
+          type="button"
           onClick={scrollToTop}
-          className="fixed bottom-5 right-5 p-3 bg-text-primary text-background rounded-full shadow-lg hover:bg-orange-400 transition duration-200 cursor-pointer z-40"
-          aria-label="Scroll to top"
+          className="fixed bottom-5 right-5 p-3 bg-[#314653] text-[#FFF8F0] rounded-full shadow-lg hover:bg-[#D89681] transition-colors duration-200 cursor-pointer z-40"
+          aria-label="Vrati se na vrh stranice"
         >
           <FaArrowUp size={20} />
         </button>

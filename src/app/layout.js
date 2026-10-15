@@ -1,20 +1,16 @@
-import { Baloo_2, Nunito } from "next/font/google";
+import { Fustat, Nunito } from "next/font/google";
 import "./globals.css";
 
-const nunito = Nunito({
-  variable: "--font-nunito",
-  subsets: ["latin"],
-  weight: ["400", "600"],
-  display: "swap",
-  fallback: ["system-ui", "Arial"],
+const fustat = Fustat({
+  subsets: ["latin", "latin-ext"],
+  weight: ["300", "400", "700"],
+  variable: "--font-fustat",
 });
 
-const baloo = Baloo_2({
-  variable: "--font-baloo",
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-  display: "swap",
-  fallback: ["cursive", "system-ui"],
+const nunito = Nunito({
+  subsets: ["latin", "latin-ext"],
+  weight: ["400", "600", "700"],
+  variable: "--font-nunito",
 });
 
 export const metadata = {
@@ -28,9 +24,7 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="sr">
-      <body
-        className={`${baloo.variable} ${nunito.variable} antialiased bg-[#fff8f0] text-gray-800`}
-      >
+      <body className={`${fustat.variable} ${nunito.variable} antialiased`}>
         {children}
       </body>
     </html>
