@@ -71,64 +71,66 @@
    GLOBALNI STILOVI
 ======================================== */
 
-* {
-  box-sizing: border-box;
-}
+@layer base {
+  * {
+    box-sizing: border-box;
+  }
 
-html {
-  scroll-behavior: smooth;
-}
+  html {
+    scroll-behavior: smooth;
+  }
 
-body {
-  margin: 0;
-  background-color: var(--background-primary);
-  color: var(--text-primary);
-  font-family: var(--font-body), sans-serif;
-  -webkit-font-smoothing: antialiased;
-}
+  body {
+    margin: 0;
+    background-color: var(--background-primary);
+    color: var(--text-primary);
+    font-family: var(--font-body), sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
 
-/* Naslovi */
+  /* Naslovi */
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  color: var(--text-primary);
-  font-family: var(--font-heading), sans-serif;
-}
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    color: var(--text-primary);
+    font-family: var(--font-heading), sans-serif;
+  }
 
-/* Pasusi */
+  /* Pasusi */
 
-p {
-  color: var(--text-secondary);
-}
+  p {
+    color: var(--text-secondary);
+  }
 
-/* Linkovi */
+  /* Linkovi */
 
-a {
-  color: inherit;
-  text-decoration: none;
-}
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
 
-/* Dugmad */
+  /* Dugmad */
 
-button {
-  font-family: var(--font-button), sans-serif;
-}
+  button {
+    font-family: var(--font-button), sans-serif;
+  }
 
-/* Form elementi */
+  /* Form elementi */
 
-input,
-textarea,
-select {
-  font-family: var(--font-body), sans-serif;
-}
+  input,
+  textarea,
+  select {
+    font-family: var(--font-body), sans-serif;
+  }
 
-/* Selekcija teksta */
+  /* Selekcija teksta */
 
-::selection {
-  background-color: #e5e5e5;
-  color: #111111;
+  ::selection {
+    background-color: #e5e5e5;
+    color: #111111;
+  }
 }

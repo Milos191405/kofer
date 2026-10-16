@@ -13,9 +13,10 @@ import {
 
 const navLinks = [
   { to: "/", label: "Početna" },
-  { to: "/O_nama", label: "O Koferu" },
-  { to: "/Paketi", label: "Paketi" },
-  { to: "/Blog", label: "Blog" },
+  { to: "/Home2", label: "Home2" },
+  // { to: "/O_nama", label: "O Koferu" },
+  // { to: "/Paketi", label: "Paketi" },
+  { to: "/Kontakt", label: "Kontakt" },
 ];
 
 function ContactIcons({ onClick, className = "" }) {
@@ -25,7 +26,7 @@ function ContactIcons({ onClick, className = "" }) {
         href="/Kontakt"
         onClick={onClick}
         aria-label="Kontakt putem emaila"
-        className="text-[#314653] hover:text-[#D89681] transition-colors duration-200"
+        className="inline-flex items-center justify-center text-[#314653] transition duration-200 hover:scale-110 hover:text-[#D89681]"
       >
         <FaEnvelope size={22} />
       </Link>
@@ -35,7 +36,7 @@ function ContactIcons({ onClick, className = "" }) {
         rel="noopener noreferrer"
         onClick={onClick}
         aria-label="Instagram profil Kofer"
-        className="text-[#314653] hover:text-[#D89681] transition-colors duration-200"
+        className="inline-flex items-center justify-center text-[#314653] transition duration-200 hover:scale-110 hover:text-[#D89681]"
       >
         <FaInstagram size={22} />
       </a>
@@ -102,7 +103,7 @@ export default function Navbar() {
               width={100}
               height={60}
               priority
-              className="block h-8 lg:h-10 w-auto object-contain"
+              className="block  lg:h-10 w-22 object-contain"
             />
           </Link>
 
@@ -110,7 +111,7 @@ export default function Navbar() {
           <button
             type="button"
             onClick={() => setNav(!nav)}
-            className="absolute right-6 top-1/2 -translate-y-1/2 lg:hidden z-50 cursor-pointer text-[#314653] hover:text-[#D89681] transition-colors duration-200"
+            className="absolute right-6 top-1/2 -translate-y-1/2 lg:hidden z-50 cursor-pointer text-[#314653] transition duration-200 hover:scale-110 hover:text-[#D89681]"
             aria-controls="mobile-menu"
             aria-expanded={nav}
             aria-label={nav ? "Zatvori meni" : "Otvori meni"}
@@ -176,10 +177,13 @@ export default function Navbar() {
         <button
           type="button"
           onClick={scrollToTop}
-          className="fixed bottom-5 right-5 p-3 bg-[#314653] text-[#FFF8F0] rounded-full shadow-lg hover:bg-[#D89681] transition-colors duration-200 cursor-pointer z-40"
+          className="group fixed bottom-5 right-5 p-3 bg-[#314653] text-[#FFF8F0] rounded-full shadow-lg hover:bg-[#D89681] transition-colors duration-200 cursor-pointer z-40"
           aria-label="Vrati se na vrh stranice"
         >
-          <FaArrowUp size={20} />
+          <FaArrowUp
+            className="transition-transform duration-200 group-hover:-translate-y-0.5"
+            size={20}
+          />
         </button>
       )}
     </>
