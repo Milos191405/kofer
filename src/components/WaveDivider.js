@@ -1,8 +1,10 @@
-export default function WaveDivider({ fill = "#f8f8f8" }) {
+export default function WaveDivider({ fill = "#f8f8f8", flipY = false }) {
   return (
     <svg
       aria-hidden="true"
-      className="pointer-events-none absolute bottom-0 left-0 z-20 block h-[45px] w-full overflow-visible sm:h-[70px] lg:h-[90px]"
+      className={`pointer-events-none absolute bottom-0 left-0 z-20 block h-[45px] w-full overflow-visible sm:h-[70px] lg:h-[90px] ${
+        flipY ? "scale-y-[-1]" : ""
+      }`}
       viewBox="0 0 1440 120"
       preserveAspectRatio="none"
       xmlns="http://www.w3.org/2000/svg"

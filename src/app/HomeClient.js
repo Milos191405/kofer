@@ -1,7 +1,6 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import WaveDivider from "@/components/WaveDivider";
@@ -13,60 +12,95 @@ import { GiPartyPopper } from "react-icons/gi";
 const features = [
   {
     Icon: FaBirthdayCake,
-    title: "Rodjendani",
+    title: "Dečiji rođendani",
     description: "Paketi koji se prilagođavaju vašoj proslavi.",
   },
   {
     Icon: FaChild,
-    title: "Igraonica",
+    title: "Dečija igraonica",
     description: "Mesto za istraživanje, kretanje i zabavu.",
   },
   {
     Icon: GiPartyPopper,
-    title: "Zabave",
+    title: "Tematske zabave",
     description:
       "Pogledajte kako se mališani zabavljaju na našim tematskim žurkama.",
   },
   {
     Icon: FaInstagram,
-    title: "Uspomene",
+    title: "Nezaboravne uspomene",
     description: "Lepi trenuci za decu, roditelje i prijatelje.",
   },
 ];
 
-export default function HomeClient() {
+const homeThemes = {
+  peach: {
+    section: "#F3EAE5",
+    accent: "#D89681",
+    accentDark: "#C7836E",
+    heroAccent: "#E6A18C",
+  },
+  sage: {
+    section: "#E5ECE8",
+    accent: "#314653",
+    accentDark: "#314653",
+    heroAccent: "#F2D66D",
+  },
+};
+
+export default function HomeClient({ colorTheme = "peach" }) {
+  const theme = homeThemes[colorTheme] ?? homeThemes.peach;
+
   return (
-    <main className="min-h-screen bg-background-primary">
+    <main
+      className="min-h-screen bg-background-primary"
+      style={{
+        "--home-section": theme.section,
+        "--home-accent": theme.accent,
+        "--home-accent-dark": theme.accentDark,
+        "--home-hero-accent": theme.heroAccent,
+      }}
+    >
       <Navbar />
 
       {/* Hero section */}
-      <section className="relative isolate h-[min(680px,100svh)] min-h-[560px] w-full overflow-hidden sm:h-[600px] sm:min-h-0 lg:h-[760px]">
+      <section
+        aria-labelledby="hero-title"
+        className="relative isolate h-[min(680px,100svh)] min-h-[560px] w-full overflow-hidden sm:h-[600px] sm:min-h-0 lg:h-[760px]"
+      >
         <Image
           src="/images/1.jpg"
-          alt="Enterijer igraonice Kofer"
+          alt="Enterijer dečije igraonice Kofer"
           fill
           priority
           sizes="100vw"
           className="object-cover"
         />
 
-        <div className="absolute inset-0 bg-gradient-to-r from-[#314653]/80 via-[#314653]/45 to-[#314653]/10" />
+        <div
+          aria-hidden="true"
+          className="absolute inset-0 bg-gradient-to-r from-[#314653]/80 via-[#314653]/45 to-[#314653]/10"
+        />
 
         <div className="absolute inset-x-5 bottom-24 z-10 mx-auto max-w-6xl sm:inset-x-8 sm:bottom-28">
           <div className="max-w-2xl">
-            <p className="mb-3 text-sm font-bold uppercase tracking-[0.2em] text-[#E6A18C] sm:text-base">
-              Igraonica Kofer
+            <p className="mb-3 text-sm font-bold uppercase tracking-[0.2em] text-[var(--home-hero-accent)] sm:text-base">
+              Dobro došli u Igraonicu Kofer
             </p>
 
-            <h1 className="text-4xl font-bold leading-tight text-white sm:text-5xl lg:text-6xl">
-              Mesto gde svaka proslava postaje avantura
+            <h1
+              id="hero-title"
+              className="text-4xl font-bold leading-tight text-white sm:text-5xl lg:text-6xl"
+            >
+              Dečija igraonica Kofer – mesto za nezaboravne rođendane
             </h1>
 
             <p className="mt-4 max-w-xl text-base leading-7 text-white/90 sm:text-lg">
-              Prostor za igru, druženje i rođendane koji se pamte.
+              Prostor za dečije rođendane, igru, druženje i proslave koje se
+              pamte.
             </p>
 
-            <ButtonLink href="/Kontakt" className="mt-7">
+            <ButtonLink href="/Kontakt" tone={colorTheme} className="mt-7">
               Zakažite proslavu
             </ButtonLink>
           </div>
@@ -75,14 +109,14 @@ export default function HomeClient() {
         <WaveDivider fill="#f8f8f8" />
       </section>
 
-      {/* Features section with standalone circular icons */}
+      {/* Features section */}
       <section
         aria-labelledby="kofer-features-title"
         className="relative bg-background-secondary px-4 pb-16 pt-12 sm:px-6 sm:pb-20 sm:pt-16"
       >
         <div className="mx-auto max-w-6xl">
           <div className="mx-auto mb-8 max-w-2xl text-center sm:mb-12">
-            <p className="mb-2 text-sm font-bold uppercase tracking-[0.16em] text-[#D89681]">
+            <p className="mb-2 text-sm font-bold uppercase tracking-[0.16em] text-[var(--home-accent)]">
               Dobro došli u Kofer
             </p>
 
@@ -90,7 +124,7 @@ export default function HomeClient() {
               id="kofer-features-title"
               className="text-2xl font-bold text-[#314653] sm:text-4xl"
             >
-              Sve za bezbrižnu proslavu
+              Sve za bezbrižnu proslavu dečijeg rođendana
             </h2>
 
             <p className="mt-3 text-base text-[#666666] sm:text-lg">
@@ -100,7 +134,7 @@ export default function HomeClient() {
           </div>
 
           <ul className="grid grid-cols-2 gap-x-5 gap-y-8 sm:grid-cols-4 sm:gap-x-8">
-            {features.map(({ Icon, title }) => (
+            {features.map(({ Icon, title, description }) => (
               <li
                 key={title}
                 className="group flex flex-col items-center text-center"
@@ -116,34 +150,42 @@ export default function HomeClient() {
                 <h3 className="mt-4 text-sm font-medium leading-6 text-[#171717] sm:mt-5 sm:text-base">
                   {title}
                 </h3>
+
+                <p className="mt-1 max-w-[220px] text-sm leading-6 text-[#666666]">
+                  {description}
+                </p>
               </li>
             ))}
           </ul>
         </div>
 
-        <WaveDivider fill="#F3EAE5" />
+        <WaveDivider fill={theme.section} />
       </section>
 
       {/* About Kofer section */}
       <section
         aria-labelledby="kofer-about-title"
-        className="bg-[#F3EAE5] px-5 py-14 sm:px-6 sm:py-20 lg:py-24"
+        className="bg-[var(--home-section)] px-5 py-14 sm:px-6 sm:py-20 lg:py-24"
       >
         <div className="mx-auto grid max-w-6xl items-center gap-10 md:grid-cols-2 md:gap-14 lg:gap-20">
-          {/* About image */}
           <div className="relative min-h-[300px] overflow-hidden rounded-3xl sm:min-h-[400px]">
             <Image
               src="/images/kofer_home_page.jpg"
-              alt="Prostor igraonice Kofer"
+              alt="Prostor igraonice Kofer za dečije rođendane i proslave"
               fill
               sizes="(max-width: 768px) 100vw, 50vw"
               className="object-cover transition-transform duration-500 hover:scale-105"
             />
           </div>
 
-          {/* About content */}
           <div>
-            <p className="text-sm font-bold uppercase tracking-[0.16em] text-[#C7836E]">
+            <p
+              className={`text-sm font-bold uppercase tracking-[0.16em] text-[var(--home-accent-dark)] ${
+                colorTheme === "sage"
+                  ? "inline-flex rounded-full bg-[#F2D66D] px-3 py-1"
+                  : ""
+              }`}
+            >
               Upoznajte nas
             </p>
 
@@ -151,7 +193,7 @@ export default function HomeClient() {
               id="kofer-about-title"
               className="mt-3 text-3xl font-bold leading-tight text-[#314653] sm:text-4xl lg:text-5xl"
             >
-              Kofer je mesto za igru, druženje i slavlje
+              Kofer je mesto za igru, druženje i dečije slavlje
             </h2>
 
             <p className="mt-5 text-base leading-7 text-[#666666] sm:text-lg sm:leading-8">
@@ -162,11 +204,11 @@ export default function HomeClient() {
             </p>
 
             <p className="mt-4 text-base leading-7 text-[#666666] sm:text-lg sm:leading-8">
-              Bilo da planirate rođendan ili neko drugo posebno slavlje, tu smo
-              da vam pomognemo da svaki detalj bude deo lepe uspomene.
+              Bilo da planirate dečiji rođendan ili neko drugo posebno slavlje,
+              tu smo da vam pomognemo da svaki detalj bude deo lepe uspomene.
             </p>
 
-            <ButtonLink href="/O_nama" className="mt-7">
+            <ButtonLink href="/O_koferu" tone={colorTheme} className="mt-7">
               Više o nama
             </ButtonLink>
           </div>
@@ -174,18 +216,18 @@ export default function HomeClient() {
       </section>
 
       {/* Wave transition to gallery */}
-      <div className="relative h-[45px] bg-[#F3EAE5] sm:h-[70px] lg:h-[90px]">
+      <div className="relative h-[45px] bg-[var(--home-section)] sm:h-[70px] lg:h-[90px]">
         <WaveDivider fill="#ffffff" />
       </div>
 
-      {/* Gallery section with photo carousel */}
+      {/* Gallery section */}
       <section
         aria-labelledby="kofer-gallery-title"
         className="bg-white px-5 py-14 sm:px-6 sm:py-20"
       >
         <div className="mx-auto max-w-6xl">
           <div className="mx-auto mb-8 max-w-2xl text-center sm:mb-10">
-            <p className="mb-2 text-sm font-bold uppercase tracking-[0.16em] text-[#D89681]">
+            <p className="mb-2 text-sm font-bold uppercase tracking-[0.16em] text-[var(--home-accent)]">
               Zavirite u Kofer
             </p>
 
@@ -193,11 +235,12 @@ export default function HomeClient() {
               id="kofer-gallery-title"
               className="text-2xl font-bold text-[#314653] sm:text-4xl"
             >
-              Prostor za male avanture
+              Pogledajte našu igraonicu i proslave
             </h2>
 
             <p className="mt-3 text-base leading-7 text-[#666666] sm:text-lg">
-              Pogledajte trenutke igre, druženja i proslava iz naše igraonice.
+              Pogledajte trenutke igre, druženja i dečijih rođendana iz naše
+              igraonice.
             </p>
           </div>
 
@@ -207,17 +250,23 @@ export default function HomeClient() {
 
       {/* Wave transition below gallery */}
       <div className="relative h-[45px] bg-white sm:h-[70px] lg:h-[90px]">
-        <WaveDivider fill="#F3EAE5" />
+        <WaveDivider fill={theme.section} />
       </div>
 
       {/* Final call-to-action section */}
-      <section className="bg-[#F3EAE5] px-5 py-14 text-center sm:px-6 sm:py-20">
+      <section
+        aria-labelledby="kofer-contact-title"
+        className="bg-[var(--home-section)] px-5 py-14 text-center sm:px-6 sm:py-20"
+      >
         <div className="mx-auto max-w-2xl">
-          <p className="text-sm font-bold uppercase tracking-[0.16em] text-[#D89681]">
+          <p className="text-sm font-bold uppercase tracking-[0.16em] text-[var(--home-accent)]">
             Vaša proslava počinje ovde
           </p>
 
-          <h2 className="mt-3 text-3xl font-bold text-[#314653] sm:text-4xl">
+          <h2
+            id="kofer-contact-title"
+            className="mt-3 text-3xl font-bold text-[#314653] sm:text-4xl"
+          >
             Spremni za sledeću avanturu?
           </h2>
 
@@ -226,14 +275,14 @@ export default function HomeClient() {
             dan.
           </p>
 
-          <ButtonLink href="/Kontakt" className="mt-6">
+          <ButtonLink href="/Kontakt" tone={colorTheme} className="mt-6">
             Zakažite proslavu
           </ButtonLink>
         </div>
       </section>
 
       {/* Wave transition to footer */}
-      <div className="relative h-[45px] bg-[#F3EAE5] sm:h-[70px] lg:h-[90px]">
+      <div className="relative h-[45px] bg-[var(--home-section)] sm:h-[70px] lg:h-[90px]">
         <WaveDivider fill="#314653" />
       </div>
 
