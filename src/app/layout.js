@@ -25,7 +25,7 @@ export const metadata = {
   openGraph: {
     title: "Dečija igraonica Kofer",
     description: "Mesto za nezaboravne dečije rođendane, igru i druženje.",
-    url: "https://kofer-git-main-milos-projects-11f2a3e8.vercel.app",
+    url: "https://kofer.vercel.app",
     siteName: "Igraonica Kofer",
     locale: "sr_RS",
     type: "website",
