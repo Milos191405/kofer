@@ -45,6 +45,7 @@ export default function PhotoCarousel({ images = defaultImages }) {
           src={activeImage.src}
           alt={activeImage.alt}
           fill
+          loading="lazy"
           sizes="(min-width: 1024px) 960px, 100vw"
           className="object-cover transition-transform duration-500 group-hover:scale-[1.02]"
         />

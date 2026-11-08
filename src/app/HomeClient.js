@@ -73,6 +73,7 @@ export default function HomeClient({ colorTheme = "peach" }) {
           alt="Enterijer dečije igraonice Kofer"
           fill
           priority
+          fetchPriority="high"
           sizes="100vw"
           className="object-cover"
         />
@@ -181,9 +182,9 @@ export default function HomeClient({ colorTheme = "peach" }) {
           <div>
             <p
               className={`text-sm font-bold uppercase tracking-[0.16em] text-[var(--home-accent-dark)] ${
-                colorTheme === "sage"
-                  ? "inline-flex rounded-full bg-[#F2D66D] px-3 py-1"
-                  : ""
+                colorTheme === "sage" ?
+                  "inline-flex rounded-full bg-[#F2D66D] px-3 py-1"
+                : ""
               }`}
             >
               Upoznajte nas
