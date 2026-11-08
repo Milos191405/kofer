@@ -1,6 +1,7 @@
+
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import WaveDivider from "./WaveDivider";
@@ -50,17 +51,21 @@ function ContactIcons({ onClick, className = "" }) {
 
 export default function Navbar() {
   const [nav, setNav] = useState(false);
-  const [prevScrollPos, setPrevScrollPos] = useState(0);
   const [visible, setVisible] = useState(true);
   const [showScrollToTop, setShowScrollToTop] = useState(false);
 
+  const prevScrollPos = useRef(0);
+
+  // Handle navbar visibility and scroll-to-top button visibility.
   useEffect(() => {
     const handleScroll = () => {
       const currentScrollPos = window.scrollY;
 
-      setVisible(currentScrollPos < 10 || prevScrollPos > currentScrollPos);
+      setVisible(
+        currentScrollPos < 10 || prevScrollPos.current > currentScrollPos
+      );
 
-      setPrevScrollPos(currentScrollPos);
+      prevScrollPos.current = currentScrollPos;
       setShowScrollToTop(currentScrollPos > 10);
     };
 
@@ -71,7 +76,7 @@ export default function Navbar() {
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
-  }, [prevScrollPos]);
+  }, []);
 
   // Close the mobile menu when the navbar hides.
   useEffect(() => {
@@ -140,9 +145,11 @@ export default function Navbar() {
             aria-label={nav ? "Zatvori meni" : "Otvori meni"}
             className="absolute left-5 top-1/2 z-50 -translate-y-1/2 text-[#314653] transition duration-200 hover:scale-110 hover:text-[#D89681] lg:hidden"
           >
-            {nav ?
+            {nav ? (
               <FaTimes className="size-[22px] sm:size-6" />
-            : <FaBars className="size-[22px] sm:size-6" />}
+            ) : (
+              <FaBars className="size-[22px] sm:size-6" />
+            )}
           </button>
 
           {/* Centered logo on mobile */}
@@ -192,9 +199,9 @@ export default function Navbar() {
           aria-hidden={!nav}
           inert={!nav}
           className={`fixed left-0 top-[72px] z-40 flex w-full flex-col overflow-hidden bg-background-secondary transition-[height,opacity] duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] sm:top-[80px] lg:hidden ${
-            nav ?
-              "h-[calc(100dvh-72px)] opacity-100 sm:h-[calc(100dvh-80px)]"
-            : "pointer-events-none h-0 opacity-0"
+            nav
+              ? "h-[calc(100dvh-72px)] opacity-100 sm:h-[calc(100dvh-80px)]"
+              : "pointer-events-none h-0 opacity-0"
           }`}
         >
           {/* Shape transition directly below the navbar */}
@@ -207,28 +214,12 @@ export default function Navbar() {
             <WaveDivider fill="#E5ECE8" />
           </div>
 
-          {/* Background image inside the mobile menu */}
-          {/*
-          <div
-            aria-hidden="true"
-            className="pointer-events-none absolute left-1/2 top-1/2 z-0 h-full w-full -translate-x-1/2 -translate-y-1/2 select-none opacity-[0.12] sm:w-[350px]"
-          >
-            <Image
-              src="/images/mobilni.jpg"
-              alt=""
-              width={350}
-              height={210}
-              className="h-auto w-full object-contain"
-            />
-          </div>
-          */}
-
           {/* Mobile navigation links */}
           <ul
             className={`relative z-10 flex w-full flex-1 flex-col items-center justify-center gap-6 bg-[#E5ECE8] py-6 text-xl text-[#314653] transition-[transform,opacity] duration-500 ease-out ${
-              nav ?
-                "translate-y-0 opacity-100 delay-100"
-              : "-translate-y-4 opacity-0"
+              nav
+                ? "translate-y-0 opacity-100 delay-100"
+                : "-translate-y-4 opacity-0"
             }`}
           >
             {navLinks.map(({ to, label }) => (
@@ -256,9 +247,9 @@ export default function Navbar() {
           {/* Mobile call to action */}
           <div
             className={`relative z-10 mt-auto w-full shrink-0 text-center transition-all duration-500 ${
-              nav ?
-                "translate-y-0 opacity-100 delay-150"
-              : "translate-y-3 opacity-0"
+              nav
+                ? "translate-y-0 opacity-100 delay-150"
+                : "translate-y-3 opacity-0"
             }`}
           >
             <div className="bg-background-secondary px-6 pb-8 pt-2">
