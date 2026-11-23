@@ -5,10 +5,28 @@ import WaveDivider from "@/components/WaveDivider";
 import ButtonLink from "@/components/ButtonLink";
 import GalleryList from "./GalleryList";
 
+// SEO tagovi specijalizovani za Galeriju
 export const metadata = {
-  title: "Galerija | Igraonica Kofer",
+  title: "Galerija | Igraonica Kofer Novi Sad",
   description:
-    "Pogledajte galeriju igraonice Kofer. Zavirite u svet dečijih rođendana, tematskih proslava, igre i nezaboravnih uspomena.",
+    "Pogledajte galeriju igraonice Kofer. Zavirite u svet dečijih rođendana, tematskih proslava, dečije igre i nezaboravnih uspomena.",
+  openGraph: {
+    title: "Galerija proslava | Igraonica Kofer",
+    description:
+      "Svaka proslava ima svoju priču. Zavirite u naše albume i upoznajte atmosferu naših proslava i tematskih žurki.",
+    url: "https://igraonicakofer.rs/Galerija",
+    siteName: "Igraonica Kofer",
+    images: [
+      {
+        url: "/images/1.jpg",
+        width: 1200,
+        height: 630,
+        alt: "Galerija slika igraonica Kofer",
+      },
+    ],
+    locale: "sr_RS",
+    type: "website",
+  },
 };
 
 export default function Galerija() {

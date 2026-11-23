@@ -12,7 +12,8 @@ import {
 const address = "Kosančić Ivana 6, 21000 Novi Sad";
 const mapQuery = encodeURIComponent(address);
 const mapUrl = `https://www.google.com/maps/search/?api=1&query=${mapQuery}`;
-const phoneNumber = "+381695547039";
+const mobilePhone = "+381695547039";
+const landlinePhone = "+38121547039";
 
 const contactDetails = [
   {
@@ -20,12 +21,15 @@ const contactDetails = [
     label: "Adresa",
     value: address,
     href: mapUrl,
+    external: true,
   },
   {
     Icon: FaPhone,
     label: "Telefon",
-    value: "021/547-039 · 069/5547-039",
-    href: `tel:${phoneNumber}`,
+    phones: [
+      { display: "021/547-039", href: `tel:${landlinePhone}` },
+      { display: "069/5547-039", href: `tel:${mobilePhone}` },
+    ],
   },
   {
     Icon: FaEnvelope,
@@ -45,25 +49,25 @@ const socialLinks = [
     Icon: FaFacebookF,
     label: "Facebook",
     href: "https://www.facebook.com/igralistens/",
+    external: true,
   },
   {
     Icon: FaInstagram,
     label: "Instagram",
     href: "https://www.instagram.com/kofer.rodjendani/",
+    external: true,
   },
   {
     Icon: FaViber,
     label: "Viber",
-    href: `viber://chat?number=${phoneNumber}`,
+    href: `viber://chat?number=${encodeURIComponent(mobilePhone)}`,
+    external: false,
   },
 ];
 
 export default function Footer() {
   return (
     <footer className="relative overflow-hidden bg-[#314653] text-white">
-     
-      
-
       <div className="relative mx-auto max-w-6xl px-5 pb-8 pt-12 sm:px-6 sm:pt-16">
         <div className="grid gap-10 lg:grid-cols-2 lg:items-center lg:gap-12">
           {/* Kontaktne informacije */}
@@ -78,34 +82,66 @@ export default function Footer() {
 
             <p className="mt-3 max-w-md text-sm leading-6 text-white/70 sm:text-base">
               Planirate rođendan ili posebnu proslavu? Javite nam se i zajedno
-              ćemo osmisliti nezaboravan dan za vaše mališane.
+              ćemo osmisliti nezaboravan dan za slavljenika i društvo.
             </p>
 
-            <ul className="mt-8 space-y-5">
-              {contactDetails.map(({ Icon, label, value, href }) => (
-                <li key={label} className="group flex items-start gap-4">
-                  <span className="flex size-11 shrink-0 items-center justify-center rounded-full bg-white/10 text-[#E6A18C] transition duration-200 group-hover:scale-110 group-hover:bg-[#D89681] group-hover:text-white">
-                    <Icon aria-hidden="true" size={17} />
-                  </span>
+            <address className="not-italic">
+              <ul className="mt-8 space-y-5">
+                {contactDetails.map(
+                  ({ Icon, label, value, href, external, phones }) => (
+                    <li key={label} className="group flex items-start gap-4">
+                      <span className="flex size-11 shrink-0 items-center justify-center rounded-full bg-white/10 text-[#E6A18C] transition duration-200 group-hover:scale-110 group-hover:bg-[#D89681] group-hover:text-white">
+                        <Icon aria-hidden="true" size={17} />
+                      </span>
 
-                  <div className="min-w-0 flex-1 pt-0.5">
-                    <p className="text-sm font-semibold text-white">{label}</p>
+                      <div className="min-w-0 flex-1 pt-0.5">
+                        <p className="text-sm font-semibold text-white">
+                          {label}
+                        </p>
 
-                    {href ?
-                      <a
-                        href={href}
-                        className="mt-1 inline-block break-words text-sm leading-6 text-white/75 transition-colors hover:text-[#E6A18C] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#E6A18C] sm:text-base"
-                      >
-                        {value}
-                      </a>
-                    : <p className="mt-1 text-sm leading-6 text-white/75 sm:text-base">
-                        {value}
-                      </p>
-                    }
-                  </div>
-                </li>
-              ))}
-            </ul>
+                        {phones ?
+                          <div className="mt-1 flex flex-wrap items-center gap-x-2 gap-y-1 text-sm leading-6 text-white/75 sm:text-base">
+                            {phones.map((phone, index) => (
+                              <span
+                                key={phone.href}
+                                className="inline-flex items-center gap-2"
+                              >
+                                <a
+                                  href={phone.href}
+                                  className="transition-colors hover:text-[#E6A18C] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#E6A18C]"
+                                >
+                                  {phone.display}
+                                </a>
+                                {index < phones.length - 1 && (
+                                  <span
+                                    aria-hidden="true"
+                                    className="text-white/40"
+                                  >
+                                    ·
+                                  </span>
+                                )}
+                              </span>
+                            ))}
+                          </div>
+                        : href ?
+                          <a
+                            href={href}
+                            target={external ? "_blank" : undefined}
+                            rel={external ? "noopener noreferrer" : undefined}
+                            className="mt-1 inline-block break-words text-sm leading-6 text-white/75 transition-colors hover:text-[#E6A18C] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#E6A18C] sm:text-base"
+                          >
+                            {value}
+                          </a>
+                        : <p className="mt-1 text-sm leading-6 text-white/75 sm:text-base">
+                            {value}
+                          </p>
+                        }
+                      </div>
+                    </li>
+                  ),
+                )}
+              </ul>
+            </address>
           </div>
 
           {/* Mapa */}
@@ -155,7 +191,6 @@ export default function Footer() {
                 />
               </a>
             </div>
-
           </div>
         </div>
 
@@ -166,13 +201,13 @@ export default function Footer() {
           </p>
 
           <ul className="mt-4 flex items-center justify-center gap-3">
-            {socialLinks.map(({ Icon, label, href }) => (
+            {socialLinks.map(({ Icon, label, href, external }) => (
               <li key={label}>
                 <a
                   href={href}
                   aria-label={label}
-                  target="_blank"
-                  rel="noopener noreferrer"
+                  target={external ? "_blank" : undefined}
+                  rel={external ? "noopener noreferrer" : undefined}
                   className="group inline-flex size-11 items-center justify-center rounded-full border border-white/15 bg-white/5 text-white transition-all duration-200 hover:-translate-y-0.5 hover:border-[#D89681] hover:bg-[#D89681] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#D89681]"
                 >
                   <Icon

@@ -1,9 +1,9 @@
-
 "use client";
 
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { usePathname } from "next/navigation";
 import WaveDivider from "./WaveDivider";
 import {
   FaBars,
@@ -50,23 +50,38 @@ function ContactIcons({ onClick, className = "" }) {
 }
 
 export default function Navbar() {
+  const pathname = usePathname();
   const [nav, setNav] = useState(false);
   const [visible, setVisible] = useState(true);
   const [showScrollToTop, setShowScrollToTop] = useState(false);
 
   const prevScrollPos = useRef(0);
 
-  // Handle navbar visibility and scroll-to-top button visibility.
+  // Handle mobile navbar visibility and scroll-to-top button visibility with requestAnimationFrame.
   useEffect(() => {
+    let ticking = false;
+
     const handleScroll = () => {
-      const currentScrollPos = window.scrollY;
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          const currentScrollPos = window.scrollY;
+          const isDesktop = window.innerWidth >= 1024;
 
-      setVisible(
-        currentScrollPos < 10 || prevScrollPos.current > currentScrollPos
-      );
+          if (isDesktop) {
+            setVisible(true);
+          } else {
+            setVisible(
+              currentScrollPos < 10 || prevScrollPos.current > currentScrollPos,
+            );
+          }
 
-      prevScrollPos.current = currentScrollPos;
-      setShowScrollToTop(currentScrollPos > 10);
+          prevScrollPos.current = currentScrollPos;
+          setShowScrollToTop(currentScrollPos > 200);
+
+          ticking = false;
+        });
+        ticking = true;
+      }
     };
 
     window.addEventListener("scroll", handleScroll, {
@@ -78,7 +93,7 @@ export default function Navbar() {
     };
   }, []);
 
-  // Close the mobile menu when the navbar hides.
+  // Close the mobile menu when the mobile navbar hides.
   useEffect(() => {
     if (!visible) {
       setNav(false);
@@ -130,7 +145,8 @@ export default function Navbar() {
     <>
       {/* Main navigation */}
       <nav
-        className={`fixed left-0 top-0 z-50 h-[72px] w-full bg-background-secondary shadow-md transition-transform duration-300 sm:h-[80px] lg:flex lg:h-[100px] lg:items-center lg:justify-between lg:px-20 ${
+        aria-label="Glavna navigacija"
+        className={`fixed left-0 top-0 z-50 h-[72px] w-full bg-background-secondary shadow-md transition-transform duration-300 sm:h-[80px] lg:flex lg:h-[100px] lg:translate-y-0 lg:items-center lg:justify-between lg:px-20 ${
           visible ? "translate-y-0" : "-translate-y-full"
         }`}
       >
@@ -145,11 +161,9 @@ export default function Navbar() {
             aria-label={nav ? "Zatvori meni" : "Otvori meni"}
             className="absolute left-5 top-1/2 z-50 -translate-y-1/2 text-[#314653] transition duration-200 hover:scale-110 hover:text-[#D89681] lg:hidden"
           >
-            {nav ? (
+            {nav ?
               <FaTimes className="size-[22px] sm:size-6" />
-            ) : (
-              <FaBars className="size-[22px] sm:size-6" />
-            )}
+            : <FaBars className="size-[22px] sm:size-6" />}
           </button>
 
           {/* Centered logo on mobile */}
@@ -178,16 +192,25 @@ export default function Navbar() {
 
         {/* Desktop navigation links */}
         <ul className="hidden items-center justify-between gap-6 text-lg text-[#314653] lg:flex lg:text-xl">
-          {navLinks.map(({ to, label }) => (
-            <li key={to}>
-              <Link
-                href={to}
-                className="transition-colors duration-200 hover:text-[#D89681]"
-              >
-                {label}
-              </Link>
-            </li>
-          ))}
+          {navLinks.map(({ to, label }) => {
+            const isActive = pathname === to;
+
+            return (
+              <li key={to}>
+                <Link
+                  href={to}
+                  aria-current={isActive ? "page" : undefined}
+                  className={`relative py-1 transition-colors duration-200 hover:text-[#D89681] ${
+                    isActive ?
+                      "font-semibold text-[#D89681] after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-full after:rounded-full after:bg-[#D89681]"
+                    : ""
+                  }`}
+                >
+                  {label}
+                </Link>
+              </li>
+            );
+          })}
         </ul>
 
         {/* Contact icons on desktop */}
@@ -199,9 +222,9 @@ export default function Navbar() {
           aria-hidden={!nav}
           inert={!nav}
           className={`fixed left-0 top-[72px] z-40 flex w-full flex-col overflow-hidden bg-background-secondary transition-[height,opacity] duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] sm:top-[80px] lg:hidden ${
-            nav
-              ? "h-[calc(100dvh-72px)] opacity-100 sm:h-[calc(100dvh-80px)]"
-              : "pointer-events-none h-0 opacity-0"
+            nav ?
+              "h-[calc(100dvh-72px)] opacity-100 sm:h-[calc(100dvh-80px)]"
+            : "pointer-events-none h-0 opacity-0"
           }`}
         >
           {/* Shape transition directly below the navbar */}
@@ -217,23 +240,32 @@ export default function Navbar() {
           {/* Mobile navigation links */}
           <ul
             className={`relative z-10 flex w-full flex-1 flex-col items-center justify-center gap-6 bg-[#E5ECE8] py-6 text-xl text-[#314653] transition-[transform,opacity] duration-500 ease-out ${
-              nav
-                ? "translate-y-0 opacity-100 delay-100"
-                : "-translate-y-4 opacity-0"
+              nav ?
+                "translate-y-0 opacity-100 delay-100"
+              : "-translate-y-4 opacity-0"
             }`}
           >
-            {navLinks.map(({ to, label }) => (
-              <li key={to}>
-                <Link
-                  href={to}
-                  onClick={closeMenu}
-                  tabIndex={nav ? 0 : -1}
-                  className="inline-block px-6 py-1 transition-colors duration-200 hover:text-[#D89681]"
-                >
-                  {label}
-                </Link>
-              </li>
-            ))}
+            {navLinks.map(({ to, label }) => {
+              const isActive = pathname === to;
+
+              return (
+                <li key={to}>
+                  <Link
+                    href={to}
+                    onClick={closeMenu}
+                    aria-current={isActive ? "page" : undefined}
+                    tabIndex={nav ? 0 : -1}
+                    className={`inline-block rounded-full px-6 py-1.5 transition-colors duration-200 hover:text-[#D89681] ${
+                      isActive ?
+                        "bg-white/80 font-semibold text-[#D89681] shadow-xs"
+                      : ""
+                    }`}
+                  >
+                    {label}
+                  </Link>
+                </li>
+              );
+            })}
           </ul>
 
           {/* Mirrored wave marking the end of the navigation area */}
@@ -247,9 +279,9 @@ export default function Navbar() {
           {/* Mobile call to action */}
           <div
             className={`relative z-10 mt-auto w-full shrink-0 text-center transition-all duration-500 ${
-              nav
-                ? "translate-y-0 opacity-100 delay-150"
-                : "translate-y-3 opacity-0"
+              nav ?
+                "translate-y-0 opacity-100 delay-150"
+              : "translate-y-3 opacity-0"
             }`}
           >
             <div className="bg-background-secondary px-6 pb-8 pt-2">

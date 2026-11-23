@@ -1,5 +1,3 @@
-"use client";
-
 import Image from "next/image";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -24,7 +22,7 @@ const features = [
     Icon: GiPartyPopper,
     title: "Tematske zabave",
     description:
-      "Pogledajte kako se mališani zabavljaju na našim tematskim žurkama.",
+      "Pogledajte kako se deca zabavljaju na našim tematskim žurkama.",
   },
   {
     Icon: FaInstagram,
@@ -66,7 +64,7 @@ export default function HomeClient({ colorTheme = "peach" }) {
       {/* Hero section */}
       <section
         aria-labelledby="hero-title"
-        className="relative isolate h-[min(680px,100svh)] min-h-[560px] w-full overflow-hidden sm:h-[600px] sm:min-h-0 lg:h-[760px]"
+        className="relative isolate flex min-h-[620px] w-full items-end overflow-hidden pb-24 pt-24 sm:min-h-[750px] sm:pb-28 sm:pt-28 lg:min-h-[850px]"
       >
         <Image
           src="/images/1.jpg"
@@ -75,33 +73,37 @@ export default function HomeClient({ colorTheme = "peach" }) {
           priority
           fetchPriority="high"
           sizes="100vw"
-          className="object-cover"
+          className="object-cover object-center"
         />
 
         <div
           aria-hidden="true"
-          className="absolute inset-0 bg-gradient-to-r from-[#314653]/80 via-[#314653]/45 to-[#314653]/10"
+          className="absolute inset-0 bg-gradient-to-r from-[#314653]/85 via-[#314653]/50 to-[#314653]/15"
         />
 
-        <div className="absolute inset-x-5 bottom-24 z-10 mx-auto max-w-6xl sm:inset-x-8 sm:bottom-28">
+        <div className="relative z-10 mx-auto w-full max-w-6xl px-5 sm:px-8">
           <div className="max-w-2xl">
-            <p className="mb-3 text-sm font-bold uppercase tracking-[0.2em] text-[var(--home-hero-accent)] sm:text-base">
+            <p className="mb-3 text-xs font-bold uppercase tracking-[0.2em] text-[var(--home-hero-accent)] sm:text-base">
               Dobro došli u Igraonicu Kofer
             </p>
 
             <h1
               id="hero-title"
-              className="text-4xl font-bold leading-tight text-white sm:text-5xl lg:text-6xl"
+              className="text-2xl font-bold leading-tight text-white sm:text-4xl lg:text-5xl"
             >
               Dečija igraonica Kofer – mesto za nezaboravne rođendane
             </h1>
 
-            <p className="mt-4 max-w-xl text-base leading-7 text-white/90 sm:text-lg">
+            <p className="mt-3 max-w-xl text-sm leading-6 text-white/90 sm:mt-4 sm:text-lg sm:leading-7">
               Prostor za dečije rođendane, igru, druženje i proslave koje se
               pamte.
             </p>
 
-            <ButtonLink href="/Kontakt" tone={colorTheme} className="mt-7">
+            <ButtonLink
+              href="/Kontakt"
+              tone={colorTheme}
+              className="mt-5 sm:mt-7"
+            >
               Zakažite proslavu
             </ButtonLink>
           </div>
@@ -113,7 +115,7 @@ export default function HomeClient({ colorTheme = "peach" }) {
       {/* Features section */}
       <section
         aria-labelledby="kofer-features-title"
-        className="relative bg-background-secondary px-4 pb-16 pt-12 sm:px-6 sm:pb-20 sm:pt-16"
+        className="relative bg-background-secondary px-4 pb-24 pt-12 sm:px-6 sm:pb-28 sm:pt-16"
       >
         <div className="mx-auto max-w-6xl">
           <div className="mx-auto mb-8 max-w-2xl text-center sm:mb-12">
@@ -129,26 +131,24 @@ export default function HomeClient({ colorTheme = "peach" }) {
             </h2>
 
             <p className="mt-3 text-base text-[#666666] sm:text-lg">
-              Pažljivo osmišljen prostor i sadržaj za poseban dan vaših
-              mališana.
+              Pažljivo osmišljen prostor i sadržaj za poseban dan vaše dece.
             </p>
           </div>
 
-          <ul className="grid grid-cols-2 gap-x-5 gap-y-8 sm:grid-cols-4 sm:gap-x-8">
+          <ul className="grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-4 sm:gap-x-8">
             {features.map(({ Icon, title, description }) => (
               <li
                 key={title}
                 className="group flex flex-col items-center text-center"
               >
-                <div className="flex size-[124px] items-center justify-center rounded-full border border-[#D9D9D9] bg-white transition-transform duration-300 group-hover:scale-105 sm:size-[144px]">
+                <div className="flex size-[108px] items-center justify-center rounded-full border border-[#D9D9D9] bg-white shadow-xs transition-transform duration-300 group-hover:scale-105 sm:size-[144px]">
                   <Icon
                     aria-hidden="true"
-                    className="text-[#314653]"
-                    size={48}
+                    className="size-10 text-[#314653] sm:size-12"
                   />
                 </div>
 
-                <h3 className="mt-4 text-sm font-medium leading-6 text-[#171717] sm:mt-5 sm:text-base">
+                <h3 className="mt-4 text-sm font-semibold leading-6 text-[#171717] sm:mt-5 sm:text-base">
                   {title}
                 </h3>
 
