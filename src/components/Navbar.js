@@ -302,19 +302,23 @@ export default function Navbar() {
       </nav>
 
       {/* Scroll to top button */}
-      {showScrollToTop && (
-        <button
-          type="button"
-          onClick={scrollToTop}
-          aria-label="Vrati se na vrh stranice"
-          className="group fixed bottom-5 right-5 z-40 rounded-full bg-[#314653] p-3 text-[#FFF8F0] shadow-lg transition-colors duration-200 hover:bg-[#D89681]"
-        >
-          <FaArrowUp
-            className="transition-transform duration-200 group-hover:-translate-y-0.5"
-            size={20}
-          />
-        </button>
-      )}
+      <button
+        type="button"
+        onClick={scrollToTop}
+        aria-label="Vrati se na vrh stranice"
+        aria-hidden={!showScrollToTop}
+        tabIndex={showScrollToTop ? 0 : -1}
+        className={`group fixed bottom-5 right-5 z-40 rounded-full bg-[#314653] p-3 text-[#FFF8F0] shadow-lg transition-all duration-200 hover:bg-[#D89681] ${
+          showScrollToTop ?
+            "translate-y-0 opacity-100"
+          : "pointer-events-none translate-y-2 opacity-0"
+        }`}
+      >
+        <FaArrowUp
+          className="transition-transform duration-200 group-hover:-translate-y-0.5"
+          size={20}
+        />
+      </button>
     </>
   );
 }

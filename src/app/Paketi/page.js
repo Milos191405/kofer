@@ -1,27 +1,37 @@
-"use client";
-
 import Image from "next/image";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import WaveDivider from "@/components/WaveDivider";
 import ButtonLink from "@/components/ButtonLink";
-import { FaBirthdayCake, FaStar, FaHeart } from "react-icons/fa";
+import { FaBirthdayCake, FaHeart } from "react-icons/fa";
 import { GiPartyPopper } from "react-icons/gi";
+
+export const metadata = {
+  title: "Paketi | Igraonica Kofer – Dečiji rođendani",
+  description:
+    "Pogledajte rođendanske pakete, tematske proslave i posebne ponude igraonice Kofer u Novom Sadu.",
+  alternates: {
+    canonical: "/Paketi",
+  },
+};
 
 const packages = [
   {
+    number: "01",
     title: "Rođendanski paketi",
     description:
       "Sve što je potrebno za savršenu proslavu dečijeg rođendana. Izaberite paket koji najviše odgovara vašim željama i prepustite nama da se pobrinemo za nezaboravan dan.",
     Icon: FaBirthdayCake,
   },
   {
+    number: "02",
     title: "Tematske proslave",
     description:
       "Proslave ispunjene maštom, omiljenim motivima i posebnim detaljima koji svaki rođendan pretvaraju u jedinstvenu avanturu.",
     Icon: GiPartyPopper,
   },
   {
+    number: "03",
     title: "Posebne prilike",
     description:
       "Planirate druženje, slavlje ili neki drugi poseban događaj? Zajedno ćemo pronaći opciju koja odgovara vašoj zamisli.",

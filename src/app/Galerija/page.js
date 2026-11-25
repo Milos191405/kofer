@@ -10,11 +10,14 @@ export const metadata = {
   title: "Galerija | Igraonica Kofer Novi Sad",
   description:
     "Pogledajte galeriju igraonice Kofer. Zavirite u svet dečijih rođendana, tematskih proslava, dečije igre i nezaboravnih uspomena.",
+  alternates: {
+    canonical: "/Galerija",
+  },
   openGraph: {
     title: "Galerija proslava | Igraonica Kofer",
     description:
       "Svaka proslava ima svoju priču. Zavirite u naše albume i upoznajte atmosferu naših proslava i tematskih žurki.",
-    url: "https://igraonicakofer.rs/Galerija",
+    url: "/Galerija",
     siteName: "Igraonica Kofer",
     images: [
       {

@@ -6,7 +6,7 @@ import { galleryAlbums } from "./galleryData";
 export default function GalleryList() {
   return (
     <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-2 2xl:grid-cols-4">
-      {galleryAlbums.map((album, index) => (
+      {galleryAlbums.map((album) => (
         <Link
           key={album.slug}
           href={`/Galerija/${album.slug}`}

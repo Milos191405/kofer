@@ -24,13 +24,13 @@ const album = galleryAlbums.find((item) => item.slug === slug);
   }, []);
 
   const nextImage = useCallback(() => {
-    if (selectedImage === null) return;
+    if (selectedImage === null || !album?.images?.length) return;
 
     setSelectedImage((current) => (current + 1) % album.images.length);
   }, [selectedImage, album]);
 
   const previousImage = useCallback(() => {
-    if (selectedImage === null) return;
+    if (selectedImage === null || !album?.images?.length) return;
 
     setSelectedImage(
       (current) => (current - 1 + album.images.length) % album.images.length,
@@ -119,7 +119,7 @@ const album = galleryAlbums.find((item) => item.slug === slug);
           </div>
 
           {/* Masonry gallery */}
-          <div className=" gap-3 sm:columns-3 sm:gap-5 lg:columns-4">
+          <div className="columns-2 gap-3 sm:columns-3 sm:gap-5 lg:columns-4">
             {album.images.map((src, index) => (
               <button
                 key={`${src}-${index}`}

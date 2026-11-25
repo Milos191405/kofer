@@ -1,5 +1,3 @@
-"use client";
-
 import Image from "next/image";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -7,6 +5,15 @@ import WaveDivider from "@/components/WaveDivider";
 import ButtonLink from "@/components/ButtonLink";
 import { FaHeart, FaChild, FaBirthdayCake, FaSmile } from "react-icons/fa";
 import { GiPartyPopper } from "react-icons/gi";
+
+export const metadata = {
+  title: "O Koferu | Igraonica Kofer Novi Sad",
+  description:
+    "Upoznajte igraonicu Kofer u Novom Sadu – našu priču, vrednosti i prostor stvoren za igru, druženje i proslave dece uzrasta 6+ godina.",
+  alternates: {
+    canonical: "/O_koferu",
+  },
+};
 
 const values = [
   {
