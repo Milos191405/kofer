@@ -13,7 +13,7 @@ const nunito = Nunito({
   display: "swap",
 });
 
-const siteUrl = "https://kofer.vercel.app";
+const siteUrl = "https://koferns.rs";
 
 export const metadata = {
   metadataBase: new URL(siteUrl),
